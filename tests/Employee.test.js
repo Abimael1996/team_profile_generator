@@ -6,20 +6,37 @@ describe('Employee methods', () => {
     const name = "Bob"
     const employee = new Employee(name);
 
-    employee.getName();
+    test = employee.getName();
 
-    expect(employee.getName()).toEqual(name);
+    expect(test).toEqual("Bob");
   }
   )
   it("should return the id of the employee", () => {
-    
     const name = "Bob";
-    const id = "1";
+    const id = 1;
     const employee = new Employee(name, id);
 
-    employee.getId();
+    test = employee.getId();
 
-    expect(employee.getId()).toEqual(id);
+    expect(test).toEqual(1);
   }
   )
+  it ("should return the email of the employee", () => {
+    const name = "Bob";
+    const id = 1;
+    const email = "bobemail@gmail.com";
+    const employee = new Employee(name, id, email);
+
+    test = employee.getEmail();
+
+    expect(test).toEqual("bobemail@gmail.com")
+  }
+  )
+  it ("should return the name of the class", () => {
+    const employee = new Employee();
+
+    test = employee.getRole();
+
+    expect(test).toEqual("Employee");
+  })
 });
