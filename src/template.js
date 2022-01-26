@@ -3,7 +3,7 @@ class Template {
 
     }
 
-    managerName(name) {
+    manager(name, id, email) {
       return `<!DOCTYPE html>
         <html lang="en">
           <head>
@@ -34,13 +34,12 @@ class Template {
                 <div class="card-body">
                   <h5 class="card-title">${name}</h5>
                   <h4 class="card-title"><i class="fas fa-mug-hot"></i> Manager</h4>
-                </div>`
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">ID: ${id}</li>
+                  <li class="list-group-item">Email: <a href="mailto:${email}">${email}</a></li>`
     }
 
-    managerID(id) {
-      return ` <ul class="list-group list-group-flush">
-      <li class="list-group-item">ID: ${id}</li>`
-    }
 }
 
 module.exports = Template;
