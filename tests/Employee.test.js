@@ -1,25 +1,25 @@
 const Employee = require('../lib/Employee');
 
 
-describe('Manager Info', () => {
-  it("should return an object that asks for the manager's name", () => {
+describe('Employee methods', () => {
+  it("should return the name of the employee", () => {
+    const name = "Bob"
+    const employee = new Employee(name);
 
-    const employee = new Employee();
-    const question = "What's the name of the manager?";
+    employee.getName();
 
-    employee.getName(question);
-
-    expect.objectContaining({ message: question});
+    expect(employee.getName()).toEqual(name);
   }
   )
-  it("should return an object that asks for the manager's ID", () => {
+  it("should return the id of the employee", () => {
+    
+    const name = "Bob";
+    const id = "1";
+    const employee = new Employee(name, id);
 
-    const employee = new Employee();
-    const question = "What's the manager's ID?";
+    employee.getId();
 
-    employee.getId(question);
-
-    expect.objectContaining({ message: question});
+    expect(employee.getId()).toEqual(id);
   }
   )
 });
