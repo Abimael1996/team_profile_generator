@@ -57,7 +57,6 @@ inquirer
     const {name, id, email, officeNumber} = answers;
     const manager = new Manager(name, id, email, officeNumber);
     employees.push(manager);
-    console.log(employees);
 
     if (answers.nextMember === "Yes, add an engineer") {
       engineerInquirer();
@@ -104,7 +103,6 @@ function engineerInquirer() {
       const {name, id, email, github} = answers;
       const engineer = new Engineer(name, id, email, github);
       employees.push(engineer);
-      console.log(employees);
 
       if (answers.nextMember === "Yes, add an engineer") {
         engineerInquirer();
@@ -152,7 +150,6 @@ function internInquirer() {
       const {name, id, email, school} = answers;
       const intern = new Intern(name, id, email, school);
       employees.push(intern);
-      console.log(employees);
 
       if (answers.nextMember === "Yes, add an engineer") {
         engineerInquirer();
