@@ -81,12 +81,7 @@ function createHtmlFile(team) {
 
 function openFile() {
 
-  fs.writeFileSync(htmlPath, template.openHtml(), (err) => {
-    if(err) {
-      console.log(err);
-    }
-  }
-);
+  fs.writeFileSync(htmlPath, template.openHtml());
 }
 
 function createEmployee(member) {
