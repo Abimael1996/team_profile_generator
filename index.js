@@ -49,7 +49,7 @@ inquirer
       type: "list",
       message: managerQuestions[4],
       name: "nextMember",
-      choices: ["Engineer", "Intern", "No"]
+      choices: ["Yes, add an engineer", "Yes, add an intern", "No, finish building my team"]
     }
   ])
   .then((answers) => {
@@ -59,9 +59,9 @@ inquirer
     employees.push(manager);
     console.log(employees);
 
-    if (answers.nextMember === "Engineer") {
+    if (answers.nextMember === "Yes, add an engineer") {
       engineerInquirer();
-    } else if(answers.nextMember === "Intern") {
+    } else if(answers.nextMember === "Yes, add an intern") {
       internInquirer();
     } else {
       createHtmlFile(employees);
@@ -96,7 +96,7 @@ function engineerInquirer() {
         type: "list",
         message: managerQuestions[4],
         name: "nextMember",
-        choices: ["Engineer", "Intern", "No"]
+        choices: ["Yes, add an engineer", "Yes, add an intern", "No, finish building my team"]
       }
     ])
     .then((answers) => {
@@ -106,9 +106,9 @@ function engineerInquirer() {
       employees.push(engineer);
       console.log(employees);
 
-      if (answers.nextMember === "Engineer") {
+      if (answers.nextMember === "Yes, add an engineer") {
         engineerInquirer();
-      } else if(answers.nextMember === "Intern") {
+      } else if(answers.nextMember === "Yes, add an intern") {
         internInquirer();
       } else {
         createHtmlFile(employees);
@@ -144,7 +144,7 @@ function internInquirer() {
         type: "list",
         message: internQuestions[4],
         name: "nextMember",
-        choices: ["Engineer", "Intern", "No"]
+        choices: ["Yes, add an engineer", "Yes, add an intern", "No, finish building my team"]
       }
     ])
     .then((answers) => {
@@ -154,9 +154,9 @@ function internInquirer() {
       employees.push(intern);
       console.log(employees);
 
-      if (answers.nextMember === "Engineer") {
+      if (answers.nextMember === "Yes, add an engineer") {
         engineerInquirer();
-      } else if(answers.nextMember === "Intern") {
+      } else if(answers.nextMember === "Yes, add an intern") {
         internInquirer();
       } else {
         createHtmlFile(employees);
