@@ -3,7 +3,9 @@
 ## Description
     
 This app allows you to create an html file that will display the members of your team in cards. You just need to answer a series of questions about your team in the command line.
-    
+
+![Site screenshot](images/project_screenshot.png)
+
 ## Table of Contents
     
 - [Installation](#installation)
