@@ -32,7 +32,7 @@ describe('Manager methods', () => {
     expect(test).toEqual("bobemail@gmail.com")
   }
   )
-  it ("should return the name of the class", () => {
+  it ("should return the role of the employee with a coffe icon", () => {
     const manager = new Manager();
 
     test = manager.getRole();
