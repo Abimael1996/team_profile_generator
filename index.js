@@ -3,6 +3,7 @@ const Template = require("./src/template")
 const fs = require("fs");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
 
 const template = new Template();
 const htmlPath = "./dist/index.html";
@@ -14,6 +15,10 @@ const managerQuestions = ["What is your team's manager's name?", "What is your t
 
 const engineerQuestions = ["What is the engineer's name?", "What is the engineer's ID number?", 
                    "What is the engineer's email address?", "What is the engineer's GitHub username?",
+                   "Would you like to add another team member?"];
+
+const internQuestions = ["What is the intern's name?", "What is the intern's ID number?", 
+                   "What is the intern's email address?", "What school did the intern go to?",
                    "Would you like to add another team member?"]
 
 inquirer 
@@ -53,7 +58,7 @@ inquirer
     if (answers.nextMember === "Engineer") {
       engineerInquirer(manager);
     } else if(answers.nextMember === "Intern") {
-      console.log(answers.nextMember);
+      internInquirer(manager);
     } else {
       console.log(manager);
       openFile();
@@ -143,4 +148,60 @@ function engineerInquirer(manager) {
 function createEngineer(engineer) {
 
   fs.appendFileSync(htmlPath, template.employee(engineer.getName(), engineer.getId(), engineer.getEmail(), engineer.getGitHub(), engineer.getRole()));
+}
+
+function internInquirer(manager) {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: internQuestions[0],
+        name: "name"
+      },
+      {
+        type: "input",
+        message: internQuestions[1],
+        name: "id"
+      },
+      {
+        type: "input",
+        message: internQuestions[2],
+        name: "email"
+      },
+      {
+        type: "input",
+        message: internQuestions[3],
+        name: "school"
+      },
+      {
+        type: "list",
+        message: internQuestions[4],
+        name: "nextMember",
+        choices: ["Engineer", "Intern", "No"]
+      }
+    ])
+    .then((answers) => {
+
+      const {name, id, email, school} = answers;
+
+      if (answers.nextMember === "Engineer") {
+
+      } else if(answers.nextMember === "Intern") {
+        console.log(answers.nextMember);
+      } else {
+        const intern = new Intern(name, id, email, school);
+        console.log(intern);
+        openFile();
+        createManager(manager);
+        createIntern(intern);
+        closeFile();
+        createCSS();
+      }
+
+    })
+}
+
+function createIntern(intern) {
+
+  fs.appendFileSync(htmlPath, template.employee(intern.getName(), intern.getId(), intern.getEmail(), intern.getSchool(), intern.getRole()));
 }
