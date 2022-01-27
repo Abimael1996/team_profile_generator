@@ -69,31 +69,6 @@ inquirer
   }
   );
 
-function openFile() {
-  
-  fs.appendFileSync(htmlPath, template.openHtml());
-}
-
-function closeFile() {
-
-  fs.appendFileSync(htmlPath, template.closeHtml());
-}
-
-function createCSS() {
-
-  fs.writeFile(cssPath, template.css(), (err) => {
-    if(err) {
-      console.log(err);
-    }
-  }
-);
-}
-
-function createEmployee(member) {
-
-  fs.appendFileSync(htmlPath, template.employee(member.getName(), member.getId(), member.getEmail(), thirdParam(member), member.getRole()));
-}
-
 function engineerInquirer() {
   inquirer
     .prompt([
@@ -190,6 +165,24 @@ function internInquirer() {
     })
 }
 
+function createHtmlFile(team) {
+
+  openFile();
+  team.forEach(member => createEmployee(member));
+  closeFile();
+  createCSS();
+}
+
+function openFile() {
+  
+  fs.appendFileSync(htmlPath, template.openHtml());
+}
+
+function createEmployee(member) {
+
+  fs.appendFileSync(htmlPath, template.employee(member.getName(), member.getId(), member.getEmail(), thirdParam(member), member.getRole()));
+}
+
 function thirdParam(role) {
   
   if (role instanceof Manager) {
@@ -199,16 +192,20 @@ function thirdParam(role) {
   } else if (role instanceof Intern) {
     return role.getSchool();
   }
-
 }
 
-function createHtmlFile(team) {
+function closeFile() {
 
-  openFile();
-
-  team.forEach(member => createEmployee(member));
-
-  closeFile();
-  createCSS();
-
+  fs.appendFileSync(htmlPath, template.closeHtml());
 }
+
+function createCSS() {
+
+  fs.writeFile(cssPath, template.css(), (err) => {
+    if(err) {
+      console.log(err);
+    }
+  }
+);
+}
+
