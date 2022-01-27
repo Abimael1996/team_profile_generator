@@ -19,7 +19,9 @@ const engineerQuestions = ["What is the engineer's name?", "What is the engineer
 
 const internQuestions = ["What is the intern's name?", "What is the intern's ID number?", 
                    "What is the intern's email address?", "What school did the intern go to?",
-                   "Would you like to add another team member?"]
+                   "Would you like to add another team member?"];
+
+let employees = [];
 
 inquirer 
   .prompt([
@@ -54,17 +56,15 @@ inquirer
 
     const {name, id, email, officeNumber} = answers;
     const manager = new Manager(name, id, email, officeNumber);
+    employees.push(manager);
+    console.log(employees);
 
     if (answers.nextMember === "Engineer") {
-      engineerInquirer(manager);
+      engineerInquirer();
     } else if(answers.nextMember === "Intern") {
-      internInquirer(manager);
+      internInquirer();
     } else {
-      console.log(manager);
-      openFile();
-      createManager(manager);
-      closeFile();
-      createCSS();
+      createHtmlFile(employees);
     }
   }
   );
@@ -89,12 +89,12 @@ function createCSS() {
 );
 }
 
-function createManager(manager) {
+function createEmployee(member) {
 
-  fs.appendFileSync(htmlPath, template.employee(manager.getName(), manager.getId(), manager.getEmail(), manager.getOfficeNumber(), manager.getRole()));
+  fs.appendFileSync(htmlPath, template.employee(member.getName(), member.getId(), member.getEmail(), thirdParam(member), member.getRole()));
 }
 
-function engineerInquirer(manager) {
+function engineerInquirer() {
   inquirer
     .prompt([
       {
@@ -127,30 +127,22 @@ function engineerInquirer(manager) {
     .then((answers) => {
 
       const {name, id, email, github} = answers;
+      const engineer = new Engineer(name, id, email, github);
+      employees.push(engineer);
+      console.log(employees);
 
       if (answers.nextMember === "Engineer") {
-
+        engineerInquirer();
       } else if(answers.nextMember === "Intern") {
-        console.log(answers.nextMember);
+        internInquirer();
       } else {
-        const engineer = new Engineer(name, id, email, github);
-        console.log(engineer);
-        openFile();
-        createManager(manager);
-        createEngineer(engineer);
-        closeFile();
-        createCSS();
+        createHtmlFile(employees);
       }
 
     })
 }
 
-function createEngineer(engineer) {
-
-  fs.appendFileSync(htmlPath, template.employee(engineer.getName(), engineer.getId(), engineer.getEmail(), engineer.getGitHub(), engineer.getRole()));
-}
-
-function internInquirer(manager) {
+function internInquirer() {
   inquirer
     .prompt([
       {
@@ -183,25 +175,40 @@ function internInquirer(manager) {
     .then((answers) => {
 
       const {name, id, email, school} = answers;
+      const intern = new Intern(name, id, email, school);
+      employees.push(intern);
+      console.log(employees);
 
       if (answers.nextMember === "Engineer") {
-
+        engineerInquirer();
       } else if(answers.nextMember === "Intern") {
-        console.log(answers.nextMember);
+        internInquirer();
       } else {
-        const intern = new Intern(name, id, email, school);
-        console.log(intern);
-        openFile();
-        createManager(manager);
-        createIntern(intern);
-        closeFile();
-        createCSS();
+        createHtmlFile(employees);
       }
 
     })
 }
 
-function createIntern(intern) {
+function thirdParam(role) {
+  
+  if (role instanceof Manager) {
+    return role.getOfficeNumber();
+  } else if (role instanceof Engineer) {
+    return role.getGitHub();
+  } else if (role instanceof Intern) {
+    return role.getSchool();
+  }
 
-  fs.appendFileSync(htmlPath, template.employee(intern.getName(), intern.getId(), intern.getEmail(), intern.getSchool(), intern.getRole()));
+}
+
+function createHtmlFile(team) {
+
+  openFile();
+
+  team.forEach(member => createEmployee(member));
+
+  closeFile();
+  createCSS();
+
 }
