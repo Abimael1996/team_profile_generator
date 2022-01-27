@@ -168,6 +168,7 @@ function createHtmlFile(team) {
   team.forEach(member => createEmployee(member));
   closeFile();
   createCSS();
+  console.log("Your page has been created!")
 }
 
 function openFile() {
