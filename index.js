@@ -23,143 +23,51 @@ const internQuestions = ["What is the intern's name?", "What is the intern's ID 
 
 let employees = [];
 
+function teamInquirer(questions, Member) {
 inquirer 
   .prompt([
     {
       type: "input",
-      message: managerQuestions[0],
+      message: questions[0],
       name: "name"
     },
     {
       type: "input",
-      message: managerQuestions[1],
+      message: questions[1],
       name: "id"
     },
     {
       type: "input",
-      message: managerQuestions[2],
+      message: questions[2],
       name: "email"
     },
     {
       type: "input",
-      message: managerQuestions[3],
-      name: "officeNumber"
+      message: questions[3],
+      name: "unique"
     },
     {
       type: "list",
-      message: managerQuestions[4],
+      message: questions[4],
       name: "nextMember",
       choices: ["Yes, add an engineer", "Yes, add an intern", "No, finish building my team"]
     }
   ])
   .then((answers) => {
 
-    const {name, id, email, officeNumber} = answers;
-    const manager = new Manager(name, id, email, officeNumber);
+    const {name, id, email, unique} = answers;
+    const manager = new Member(name, id, email, unique);
     employees.push(manager);
 
     if (answers.nextMember === "Yes, add an engineer") {
-      engineerInquirer();
+      teamInquirer(engineerQuestions, Engineer);
     } else if(answers.nextMember === "Yes, add an intern") {
-      internInquirer();
+      teamInquirer(internQuestions, Intern);
     } else {
       createHtmlFile(employees);
     }
   }
   );
-
-function engineerInquirer() {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        message: engineerQuestions[0],
-        name: "name"
-      },
-      {
-        type: "input",
-        message: engineerQuestions[1],
-        name: "id"
-      },
-      {
-        type: "input",
-        message: engineerQuestions[2],
-        name: "email"
-      },
-      {
-        type: "input",
-        message: engineerQuestions[3],
-        name: "github"
-      },
-      {
-        type: "list",
-        message: managerQuestions[4],
-        name: "nextMember",
-        choices: ["Yes, add an engineer", "Yes, add an intern", "No, finish building my team"]
-      }
-    ])
-    .then((answers) => {
-
-      const {name, id, email, github} = answers;
-      const engineer = new Engineer(name, id, email, github);
-      employees.push(engineer);
-
-      if (answers.nextMember === "Yes, add an engineer") {
-        engineerInquirer();
-      } else if(answers.nextMember === "Yes, add an intern") {
-        internInquirer();
-      } else {
-        createHtmlFile(employees);
-      }
-
-    })
-}
-
-function internInquirer() {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        message: internQuestions[0],
-        name: "name"
-      },
-      {
-        type: "input",
-        message: internQuestions[1],
-        name: "id"
-      },
-      {
-        type: "input",
-        message: internQuestions[2],
-        name: "email"
-      },
-      {
-        type: "input",
-        message: internQuestions[3],
-        name: "school"
-      },
-      {
-        type: "list",
-        message: internQuestions[4],
-        name: "nextMember",
-        choices: ["Yes, add an engineer", "Yes, add an intern", "No, finish building my team"]
-      }
-    ])
-    .then((answers) => {
-
-      const {name, id, email, school} = answers;
-      const intern = new Intern(name, id, email, school);
-      employees.push(intern);
-
-      if (answers.nextMember === "Yes, add an engineer") {
-        engineerInquirer();
-      } else if(answers.nextMember === "Yes, add an intern") {
-        internInquirer();
-      } else {
-        createHtmlFile(employees);
-      }
-
-    })
 }
 
 function createHtmlFile(team) {
@@ -207,3 +115,4 @@ function createCSS() {
 );
 }
 
+teamInquirer(managerQuestions, Manager);
