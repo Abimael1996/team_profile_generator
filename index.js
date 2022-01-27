@@ -7,7 +7,6 @@ const Intern = require("./lib/Intern");
 
 const template = new Template();
 const htmlPath = "./dist/index.html";
-const cssPath = "./dist/style.css";
 
 const managerQuestions = ["What is your team's manager's name?", "What is your team's manager's ID number?", 
                    "What is your team's manager's email address?", "What is your team's manager's office number?",
@@ -64,32 +63,27 @@ inquirer
     } else if(answers.nextMember === "Yes, add an intern") {
       teamInquirer(internQuestions, Intern);
     } else {
-      createHtmlFile(employees);
+      createTeam(employees);
     }
   }
   );
 }
 
-function createHtmlFile(team) {
+function createTeam(team) {
 
-  openFile();
-  team.forEach(member => createEmployee(member));
-  closeFile();
-  createCSS();
-  console.log("Your page has been created!")
+  const teaMembers = team.map(member => template.employee(member.getName(), member.getId(), member.getEmail(), fourthParam(member), member.getRole()));
+
+  fs.writeFile(htmlPath, template.htmlFile(teaMembers), (err) => {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log("Your page has been created!")
+    }
+  });
+
 }
 
-function openFile() {
-
-  fs.writeFileSync(htmlPath, template.openHtml());
-}
-
-function createEmployee(member) {
-
-  fs.appendFileSync(htmlPath, template.employee(member.getName(), member.getId(), member.getEmail(), thirdParam(member), member.getRole()));
-}
-
-function thirdParam(role) {
+function fourthParam(role) {
   
   if (role instanceof Manager) {
     return role.getOfficeNumber();
@@ -98,21 +92,6 @@ function thirdParam(role) {
   } else if (role instanceof Intern) {
     return role.getSchool();
   }
-}
-
-function closeFile() {
-
-  fs.appendFileSync(htmlPath, template.closeHtml());
-}
-
-function createCSS() {
-
-  fs.writeFile(cssPath, template.css(), (err) => {
-    if(err) {
-      console.log(err);
-    }
-  }
-);
 }
 
 teamInquirer(managerQuestions, Manager);
