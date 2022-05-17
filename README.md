@@ -6,13 +6,9 @@ This app allows you to create an html file that will display the members of your
 
 ![Site screenshot](images/project_screenshot.png)
 
-## Table of Contents
-    
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contribute](#contribute)
-- [Tests](#tests)
-- [Questions](#questions)
+## List of Technologies
+
+Jest | Inquirer | Node.js | JavaScript | CSS | HTML
     
 ## Installation
 
